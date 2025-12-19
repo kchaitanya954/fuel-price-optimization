@@ -88,12 +88,32 @@ Visit `http://localhost:8000/docs` for interactive API documentation.
 
 ## How It Works
 
-1. **Training**: Model learns volume patterns from historical data (`oil_retail_history.csv`) using engineered features\n   (lags, moving stats, temporal features, price vs competitors, margin, etc.).\n2. **Time-Based Split**: Training uses the earliest ~80% of days as train and the most recent ~20% as test (no shuffling),\n   which is appropriate for time-series data.\n3. **Prediction & Optimization**: For a given day, the system:\n   - Builds today’s feature row using historical context.\n   - Searches a price range (default ±5% of current price).\n   - Predicts volume for each candidate price.\n   - Computes expected profit = volume × (price − cost).\n   - Applies business guardrails (see below).\n   - Picks the price with maximum expected profit that respects the constraints.\n4. **Business Guardrails** (configured in `config.py`):\n   - `MAX_PRICE_CHANGE_PERCENT`: maximum allowed daily change vs current price.\n   - `MIN_PROFIT_MARGIN_PERCENT`: minimum profit margin vs cost.\n   - `COMPETITIVENESS_THRESHOLD`: keep price within a small % band around average competitor price.\n\nThe API response also includes booleans indicating whether the recommended price satisfies each guardrail.
+1. **Training**: Model learns volume patterns from historical data (`oil_retail_history.csv`) using engineered features\n   (lags, moving stats, temporal features, price vs competitors, margin, etc.).
+
+2. **Time-Based Split**: Training uses the earliest ~80% of days as train and the most recent ~20% as test (no shuffling),\n   which is appropriate for time-series data.
+
+3. **Prediction & Optimization**: For a given day, the system:\n   - Builds today’s feature row using historical context.
+  - Searches a price range (default ±5% of current price).
+  - Predicts volume for each candidate price.
+  - Computes expected profit = volume × (price − cost).
+  - Applies business guardrails (see below).
+  - Picks the price with maximum expected profit that respects the constraints.
+
+4. **Business Guardrails** (configured in `config.py`):
+  - `MAX_PRICE_CHANGE_PERCENT`: maximum allowed daily change vs current price.
+  - `MIN_PROFIT_MARGIN_PERCENT`: minimum profit margin vs cost.
+  - `COMPETITIVENESS_THRESHOLD`: keep price within a small % band around average competitor price.
+
+The API response also includes booleans indicating whether the recommended price satisfies each guardrail.
 
 ## Configuration
 
 Edit `config.py` to adjust:
-- **Model parameters** (e.g. `RANDOM_FOREST_N_ESTIMATORS`, `RANDOM_FOREST_MAX_DEPTH`, `RANDOM_FOREST_MIN_SAMPLES_SPLIT`,\n  `RANDOM_FOREST_MIN_SAMPLES_LEAF`, `RANDOM_FOREST_MAX_FEATURES`).\n+- **Price search range** (`PRICE_SEARCH_MIN_MULTIPLIER`, `PRICE_SEARCH_MAX_MULTIPLIER`, `PRICE_SEARCH_STEPS`).\n+- **Business rules**:\n+  - `MAX_PRICE_CHANGE_PERCENT`\n+  - `MIN_PROFIT_MARGIN_PERCENT`\n+  - `COMPETITIVENESS_THRESHOLD`
+- **Model parameters** (e.g. `RANDOM_FOREST_N_ESTIMATORS`, `RANDOM_FOREST_MAX_DEPTH`, `RANDOM_FOREST_MIN_SAMPLES_SPLIT`,  `RANDOM_FOREST_MIN_SAMPLES_LEAF`, `RANDOM_FOREST_MAX_FEATURES`).
+
+- **Price search range** (`PRICE_SEARCH_MIN_MULTIPLIER`, `PRICE_SEARCH_MAX_MULTIPLIER`, `PRICE_SEARCH_STEPS`).
+
+- **Business rules**:  `MAX_PRICE_CHANGE_PERCENT`, `MIN_PROFIT_MARGIN_PERCENT`,  `COMPETITIVENESS_THRESHOLD`
 
 ## Batch schedulling with cron jons.
 ```bash
