@@ -43,44 +43,30 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Train the Model
-
-```python
-from price_recommender import PriceRecommender
-
-recommender = PriceRecommender()
-metrics = recommender.train_model()
-print(metrics)
-```
-
-Or run:
-```bash
-python price_recommender.py
-```
-
-### Get Price Recommendation
-
-```python
-from price_recommender import PriceRecommender
-import json
-
-recommender = PriceRecommender()
-
-with open('today_example.json', 'r') as f:
-    today_data = json.load(f)
-
-result = recommender.recommend_price(today_data)
-print(f"Recommended Price: {result['recommended_price']:.2f}")
-print(f"Predicted Volume: {result['predicted_volume']:.0f} liters")
-print(f"Expected Profit: {result['expected_profit']:.2f}")
-```
-
 ### API
 
 Start the API:
 ```bash
 python api.py
 ```
+
+### Train the Model
+
+Model training is performed via the API (see below).  
+There is no command-line or manual script to train the model outside of the API.  
+To trigger training, send a POST request to the `/train` endpoint:
+
+```bash
+curl -X POST "http://localhost:8000/train"
+```
+
+The API will train the model using the historical data and return training metrics.
+
+### Get Price Recommendation
+
+You can also use the API to get recommendations by sending a POST request to `/recommend` (see API section below for an example).
+
+If you want to use the recommender directly from Python (requires that a trained model already exists):
 
 Make a request:
 ```bash
