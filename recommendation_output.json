@@ -1,0 +1,18 @@
+{
+  "recommended_price": 95.7832,
+  "predicted_volume": 14364.579987301588,
+  "expected_profit": 143835.41232884824,
+  "profit_per_liter": 10.013199999999998,
+  "price_change_pct": 1.4115404976177774,
+  "within_max_change": "True",
+  "meets_min_margin": "True",
+  "within_competitive_band": "True",
+  "input_data": {
+    "date": "2024-12-31",
+    "price": 94.45,
+    "cost": 85.77,
+    "comp1_price": 95.01,
+    "comp2_price": 95.7,
+    "comp3_price": 95.21
+  }
+}

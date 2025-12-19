@@ -47,7 +47,7 @@ pip install -r requirements.txt
 
 Start the API:
 ```bash
-python api.py
+python3 api.py
 ```
 
 ### Train the Model
@@ -92,3 +92,10 @@ Visit `http://localhost:8000/docs` for interactive API documentation.
 
 Edit `config.py` to adjust:
 - **Model parameters** (e.g. `RANDOM_FOREST_N_ESTIMATORS`, `RANDOM_FOREST_MAX_DEPTH`, `RANDOM_FOREST_MIN_SAMPLES_SPLIT`,\n  `RANDOM_FOREST_MIN_SAMPLES_LEAF`, `RANDOM_FOREST_MAX_FEATURES`).\n+- **Price search range** (`PRICE_SEARCH_MIN_MULTIPLIER`, `PRICE_SEARCH_MAX_MULTIPLIER`, `PRICE_SEARCH_STEPS`).\n+- **Business rules**:\n+  - `MAX_PRICE_CHANGE_PERCENT`\n+  - `MIN_PROFIT_MARGIN_PERCENT`\n+  - `COMPETITIVENESS_THRESHOLD`
+
+## Batch schedulling with cron jons.
+
+
+```bash
+python3 schedule_example.py
+```
