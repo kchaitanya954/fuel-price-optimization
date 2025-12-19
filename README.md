@@ -20,9 +20,11 @@ fuel-price-optimization/
 ├── model.py                  # Random Forest model
 ├── price_recommender.py      # Main recommendation system
 ├── api.py                    # FastAPI endpoint
-├── oil_retail_history.csv    # Historical training data
-├── today_example.json       # Example daily input
-└── requirements.txt          # Dependencies
+├── data
+    ├──oil_retail_history.csv    # Historical training data
+    ├── today_example.json       # Example daily input
+├── requirements.txt          # Dependencies
+└──schedule_example.py        # To schdule cron jobs
 ```
 
 ## Environment Setup
@@ -94,8 +96,6 @@ Edit `config.py` to adjust:
 - **Model parameters** (e.g. `RANDOM_FOREST_N_ESTIMATORS`, `RANDOM_FOREST_MAX_DEPTH`, `RANDOM_FOREST_MIN_SAMPLES_SPLIT`,\n  `RANDOM_FOREST_MIN_SAMPLES_LEAF`, `RANDOM_FOREST_MAX_FEATURES`).\n+- **Price search range** (`PRICE_SEARCH_MIN_MULTIPLIER`, `PRICE_SEARCH_MAX_MULTIPLIER`, `PRICE_SEARCH_STEPS`).\n+- **Business rules**:\n+  - `MAX_PRICE_CHANGE_PERCENT`\n+  - `MIN_PROFIT_MARGIN_PERCENT`\n+  - `COMPETITIVENESS_THRESHOLD`
 
 ## Batch schedulling with cron jons.
-
-
 ```bash
 python3 schedule_example.py
 ```

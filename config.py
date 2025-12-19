@@ -9,7 +9,7 @@ MODELS_DIR = PROJECT_ROOT / "models"
 MODELS_DIR.mkdir(exist_ok=True)
 
 # Data files
-HISTORICAL_DATA_PATH = PROJECT_ROOT / "oil_retail_history.csv"
+HISTORICAL_DATA_PATH = PROJECT_ROOT / "data/oil_retail_history.csv"
 MODEL_PATH = MODELS_DIR / "price_optimization_model.pkl"
 SCALER_PATH = MODELS_DIR / "feature_scaler.pkl"
 

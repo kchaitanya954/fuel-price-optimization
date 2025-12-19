@@ -7,7 +7,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from pathlib import Path
 
-def generate_historical_data(n_days=730, output_path="oil_retail_history.csv"):
+def generate_historical_data(n_days=730, output_path="data/oil_retail_history.csv"):
     """
     Generate synthetic historical data for fuel prices.
     
@@ -104,7 +104,7 @@ def generate_historical_data(n_days=730, output_path="oil_retail_history.csv"):
 
 if __name__ == "__main__":
     # Generate 2 years of data
-    df = generate_historical_data(n_days=730, output_path="oil_retail_history.csv")
+    df = generate_historical_data(n_days=730, output_path="data/oil_retail_history.csv")
     print(f"\nFirst few rows:")
     print(df.head(10))
     print(f"\nLast few rows:")

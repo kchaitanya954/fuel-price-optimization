@@ -6,13 +6,16 @@ from datetime import datetime
 import json
 from pathlib import Path
 from price_recommender import PriceRecommender
+from pathlib import Path
+from prefect import task, flow
+from prefect.schedules import Cron 
 import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def daily_price_recommendation_job(input_json_path: Path, output_path: Path = None):
+def daily_price_recommendation_job(input_json_path: Path, output_path: Path = "data/recommendation_output.json"):
     """
     Scheduled job function for daily price recommendation.
     
@@ -24,7 +27,7 @@ def daily_price_recommendation_job(input_json_path: Path, output_path: Path = No
     
     Args:
         input_json_path: Path to JSON file with today's data
-        output_path: Optional path to save recommendation result
+        output_path: Path to save recommendation result
     """
     logger.info(f"Starting daily price recommendation job at {datetime.now()}")
     
@@ -61,35 +64,22 @@ def daily_price_recommendation_job(input_json_path: Path, output_path: Path = No
         raise
 
 
-# Example for Prefect
-def prefect_example():
-    """Example using Prefect for scheduling."""
-    try:
-        from prefect import task, flow
-        from prefect.schedules import CronSchedule
-        
-        @task
-        def get_price_recommendation():
-            return daily_price_recommendation_job(
-                Path("today_example.json"),
-                Path("recommendation_output.json")
-            )
-        
-        @flow(schedule=CronSchedule(cron="0 6 * * *"))  # Daily at 6 AM
-        def daily_price_optimization_flow():
-            return get_price_recommendation()
-        
-        if __name__ == "__main__":
-            daily_price_optimization_flow()
-    except ImportError:
-        logger.warning("Prefect not installed. Install with: pip install prefect")
-
-
-
-if __name__ == "__main__":
-    # Example: Run manually
-    daily_price_recommendation_job(
-        Path("today_example.json"),
-        Path("recommendation_output.json")
+@task
+def get_price_recommendation():
+    return daily_price_recommendation_job(
+        Path("data/today_example.json"),
+        Path("data/recommendation_output.json")
     )
 
+
+@flow(log_prints=True)
+def daily_price_optimization_flow():
+    return get_price_recommendation()
+
+if __name__ == "__main__":
+    daily_price_optimization_flow.serve(
+        name="daily-price-optimizer",
+        schedules=[
+            Cron("0 6 * * *", timezone="Asia/Kolkata")
+        ]
+    )

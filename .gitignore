@@ -23,14 +23,6 @@ wheels/
 .installed.cfg
 *.egg
 
-# Models
-models/*.pkl
-models/*.joblib
-
-# Data
-data/
-*.csv
-!oil_retail_history.csv
 
 # Visualizations
 *.png
